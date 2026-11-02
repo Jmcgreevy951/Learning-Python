@@ -1,4 +1,4 @@
-class Resturants:                    #Resturants is the class -> This is the instructions for creating each individual/instance (in this case, each resturant)
+class Resturants:                     #Resturants is the class -> This is the instructions for creating each individual/instance (in this case, each resturant)
    def __init__(self, name, food):   #__init__ initiates the mechanisms to create an instance 
        self.name = name              #self is used to identify this particular instance, and call upon data for said instance
        self.food = food
@@ -14,7 +14,7 @@ my_resturant = Resturants('BooJosh', 'Mexican')
 my_resturant.describe_resturant()
 my_resturant.open_resturant()
 
-#9.2 Three Resturants
+9.2 Three Resturants
 class Resturants:
    def __init__(self, name, food):
        self.name = name
@@ -39,7 +39,7 @@ their_resturant.open_resturant()
 subweezy_resturant.describe_resturant()
 subweezy_resturant.open_resturant()
 
-#9.3 Users
+9.3 Users
 class User:
     def __init__(self, forename, surname, age, job):
         self.fullname = f"{forename} {surname}"
@@ -68,7 +68,7 @@ user_cameron.greet_user()
 user_finley.describe_user()
 user_finley.greet_user()
 
-#9.4 Number Served
+9.4 Number Served
 class Resturants:                 
     def __init__(self, name, food):   
        self.name = name              
@@ -101,7 +101,7 @@ my_resturant.open_resturant()
 my_resturant.set_number_served()
 my_resturant.increment_number_served()
 
-#9.5 Login Attempts
+9.5 Login Attempts
 class User:
     def __init__(self, forename, surname, age, job):  # Reminder: A parameter is a value handed in when you create the object. It’s temporary, only existing inside __init__, while the method runs, then it’s gone 
         self.fullname = f"{forename} {surname}"       # <- Reminder: These are attributes
@@ -166,7 +166,7 @@ user_finley.increment_login_attempts()
 user_finley.reset_login_attempts()
 user_finley.greet_user()
 
-#9.6 Ice Cream Stand
+9.6 Ice Cream Stand
 class Resturants:                     
    def __init__(self, name, food):   
        self.name = name              
@@ -196,7 +196,7 @@ my_resturant.open_resturant()
 my_ice_cream.describe_resturant()
 my_ice_cream.describe_flavours()
 
-#9.7 Admin
+9.7 Admin
 class User:
     def __init__(self, forename, surname, age, job):
         self.fullname = f"{forename} {surname}"
@@ -238,7 +238,7 @@ user_finley.greet_user()
 user_admin.describe_user()
 user_admin.show_privileges()
 
-#9.8 Privileges
+9.8 Privileges
 class User:
     def __init__(self, forename, surname, age, job):
         self.fullname = f"{forename} {surname}"
@@ -277,7 +277,7 @@ user_josh.greet_user()
 user_admin.describe_user()
 user_admin.privileges.show_privileges() #Dots like a file directory -> /
 
-#9.9.1, 2 & 3 Rebuilding Chapter 9 Car Examples From Scratch
+9.9.1, 2 & 3 Rebuilding Chapter 9 Car Examples From Scratch
 class Car:
     def __init__(self, make, model, year):
         self.make = make
@@ -325,7 +325,7 @@ class ElectricCar(Car):
         super().__init__(make, model, year)
         self.battery = Battery(battery) #See notes in 9.8 Priveleges
 
-#9.9.1
+9.9.1
 josh_car = Car('Vaulkswagen', 'Urban Fox', 2007)
 
 josh_car.get_descriptive_models()
@@ -333,20 +333,20 @@ josh_car.read_odometer()
 josh_car.update_odometer(100)
 josh_car.increment_odometer(10)
 
-#9.9.2
+9.9.2
 josh_electric = Battery()
 
 josh_electric.describe_battery()
 josh_electric.get_range()
 
-#9.9.3
+9.9.3
 josh_tesla = ElectricCar('Tesla', 'Model S', 2017)
 
 josh_tesla.get_descriptive_models()
 josh_tesla.battery.describe_battery()
 josh_tesla.battery.get_range()
 
-#9.9 Battery Upgrade
+9.9 Battery Upgrade
 josh_tesla = ElectricCar('Tesla', 'Model S', 2017)
 
 josh_tesla.battery.describe_battery()
@@ -355,7 +355,7 @@ josh_tesla.battery.upgrade_battery()
 josh_tesla.battery.describe_battery()
 josh_tesla.battery.get_range()
 
-#9.10 Imported Resturant
+9.10 Imported Resturant
 from resturants import Resturants
 
 josh_resturant = Resturants("McGreevy's", 'Fast Food')
@@ -363,20 +363,20 @@ josh_resturant = Resturants("McGreevy's", 'Fast Food')
 josh_resturant.describe_resturant()
 josh_resturant.open_resturant()
 
-#9.11 Imported Admin
+9.11 Imported Admin
 from admin import Admin
 user_admin = Admin('Ross', 'Gilmore', 200, 'Admin')
 
 user_admin.privileges.show_privileges()
 
-#9.12 Multiple Modules
+9.12 Multiple Modules
 from admin import Admin
 
 user_admin = Admin('Ross', 'Gilmore', 200, 'Admin')
 
 user_admin.privileges.show_privileges()
 
-#9.13 Dice
+9.13 Dice
 from random import randint    #randint -> Random number generator within python
 # a = 0
 # b = 0
@@ -430,9 +430,10 @@ for i in range(4):
     winning_list.append(winners)
 
 
-print("Any ticket matching these wins a prize:", *winning_list, sep=" ") #<- Two things happening here: * removes the [] of print(f"{winning_list})/unpacks list, sep="" works like join - determines what's between items in list (can also be ", " for example) 
+print("Any ticket matching these wins a prize:", *winning_list, sep=" ") #<- Two things happening here: * removes the [] of print(f"{winning_list})/unpacks list, sep="" works like join - determines
+                                                                         #    what's between items in list (can also be ", " for example) 
 
-#9.15 Lottery Analysis
+9.15 Lottery Analysis
 from random import choice 
 x = 0
 
