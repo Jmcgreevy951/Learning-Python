@@ -1,4 +1,4 @@
-from random import randint, choice
+from random import choice
 
 class Card:
     """This models a single card"""
@@ -67,33 +67,84 @@ class Hand:
         
         return self.total
 
+def player_starting_hand(player, deck):
+"""This function constructs the player's starting hand"""
+    print("\nPlayer Hand")
+    while len(player.hand) < 2:
+        player.add_card(deck.deal_cards())
+    for card in player.hand:
+        card.describe_card()
+    
+    print("\nPlayer Total:")
+    print(player.totaling_hand())
+
 def hand_handling(hand, deck):
     """Function adds and displays cards in each deck"""
     hand.add_card(deck.deal_cards())
     for card in hand.hand:
         card.describe_card()
 
+def player_turn(player, deck):
+    """Function runs player's hit/stand turn"""
+    round_over = False
+    answer = get_valid_input("\nDo you want to Hit or Stand? H/S - ", ['H', 'S'])
+    while answer == 'H':
+        hand_handling(player, deck)
+        print("\nPlayer Total:")
+        print(player.totaling_hand())
+        if player.totaling_hand() > 21:
+            round_over = True
+            break
+        else:
+            answer = get_valid_input("\nHit or Stand? H/S - ", ['H', 'S'])
+    return round_over
+
+def dealer_turn(dealer, deck):
+    print("\nDealer Hand:")
+    hand_handling(dealer, deck)
+
+    print("\nDealer Total:")
+    print(dealer.totaling_hand())
+
+    while len(dealer.hand) >= 2 and dealer.totaling_hand() < 17:
+        print("\nDealer's Hand:")
+        hand_handling(dealer, deck)
+        print("\nDealer Total:")
+        print(dealer.totaling_hand())
+    
 def round_outcome(player, dealer, pot, bet):
     """Function determines the winner of each round"""
     player_total = player.totaling_hand()
     dealer_total = dealer.totaling_hand()
+    player_blackjack = len(player.hand) == 2 and player_total == 21
+    dealer_blackjack = len(dealer.hand) == 2 and dealer_total == 21
 
-    if player_total > 21:
-        print("\nYou've gone bust!")
-        pot -= bet
+    if player_blackjack and dealer_blackjack:
+        print("\nPush! You both have Blackjack")
+    elif player_blackjack:
+        print("\nBlackjack!")
+        print(f"You win ${bet * 3 // 2}")
+        pot += bet * 3 // 2
+    elif dealer_blackjack:
+        print("\nDealer has Blackjack!")
         print(f"You lost ${bet}")
+        pot -= bet
+    elif player_total > 21:
+        print("\nYou've gone bust!")
+        print(f"You lost ${bet}")
+        pot -= bet
     elif dealer_total > 21:
         print("\nDealer's gone bust!")
-        pot += bet
         print(f"You win ${bet}")
+        pot += bet
     elif player_total > dealer_total:
         print("\nYou win!")
-        pot += bet
         print(f"You win ${bet}")
+        pot += bet
     elif dealer_total > player_total:
         print("\nDealer wins!")
-        pot -= bet
         print(f"You lost ${bet}")
+        pot -= bet
     else:
         print("\nTie!")
     return pot
@@ -123,7 +174,6 @@ def get_valid_bet(pot):
             return bet
 
 
-
 pot = 10000
 answer = get_valid_input("Would you like to play? Y/N - ", ['Y', 'N'])
 
@@ -135,58 +185,30 @@ while answer == 'Y':
 
     bet = get_valid_bet(pot)
 
-    print("\nPlayer Hand")
-    while len(player.hand) < 2:
-        player.add_card(deck.deal_cards())
-    for card in player.hand:
-        card.describe_card()
-    
-    print("\nPlayer Total:")
+    #Player Hand Set-Up#
+    player_starting_hand(player, deck)
+
+    #Dealer Hand Set-Up#        
+    dealer_turn(dealer, deck)
     if player.totaling_hand() == 21:
-        print("\nBlackjack!")
-        print(f"You win ${1.5*bet}")
-        pot += bet/2
+        dealer_turn(dealer, deck)
         round_over = True
-    else:
-        print(player.totaling_hand())
 
     if not round_over:
-        print("\nDealer Hand:")
-        hand_handling(dealer, deck)
-
-        print("\nDealer Total:")
-        print(dealer.totaling_hand())
-
-
         print("\n--Player's Turn--")
-        answer = get_valid_input("\nDo you want to Hit or Stand? H/S - ", ['H', 'S'])
-        while answer == 'H':
-            hand_handling(player, deck)
-            print("\nPlayer Total:")
-            print(player.totaling_hand())
-            if player.totaling_hand() < 22:
-                answer = get_valid_input("\nHit or Stand? H/S - ", ['H', 'S'])
-            else:
-                round_over = True
-                break
+        round_over = player_turn(player, deck)
 
     if not round_over:
         print("\n--Dealer's Turn--")
-        print("\nDealer Hand:")
-        hand_handling(dealer, deck)
-
-        print("\nDealer Total:")
-        print(dealer.totaling_hand())
-
-        while dealer.totaling_hand() < 17:
-            print("\nDealer's Hand:")
-            hand_handling(dealer, deck)
-            print("\nDealer Total:")
-            print(dealer.totaling_hand())
+        dealer_turn(dealer, deck)
                     
 
     pot = round_outcome(player, dealer, pot, bet)
-    answer = get_valid_input("\nWould you like to continue? Y/N - ", ['Y', 'N'])
+    if pot <= 0:
+        print("\nThere's no more money in your pot!")
+        answer = 'N'
+    else:
+        answer = get_valid_input("\nWould you like to continue? Y/N - ", ['Y', 'N'])
 
 print("\n--Cashing Out--")
 print(f"\nYou've cashed out ${pot}. Thank you for playing!")
